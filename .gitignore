@@ -1,0 +1,52 @@
+
+# Created by https://www.gitignore.io/api/java,java-web
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Java-Web ###
+## ignoring target file
+target/
+build/
+
+#ignore database files
+data/
+
+# End of https://www.gitignore.io/api/java,java-web
+/init
+/logs/
+
+*.jasper
+# start temporary ignore, for testing purposes. you may delete after testing
+/config.ini
+/lfs_database.mv.db
+/last_sync
+# end temporary ignore
+/lfs_database.trace.db
+/config
+
+*.jrprint
+/bin/
+
+default_credentials
