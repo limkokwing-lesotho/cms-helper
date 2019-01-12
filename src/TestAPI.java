@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jsoup.Connection;
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,9 +22,9 @@ public class TestAPI {
 	public static void main(String[] args) throws Exception {
 		login();
 
-		Connection.Response gradePage = addGrades();
+		List<Student> students = readStudents();
 		
-		System.out.println(gradePage.parse().html());
+//		System.out.println(gradePage.parse().html());
 	}
 
 	private static Connection.Response addGrades() throws IOException {
@@ -56,6 +57,33 @@ public class TestAPI {
 		return homePage;
 	}
 
+	private static List<Student> readStudents(){
+		String gradeHomeUrl = "https://cmslesotho.limkokwing.net/campus/"
+				+ "lecturer/f_breakdownmarksviewlist_new.php?showmaster=1&ModuleID=1536&RecPerPage=500";
+		Response page = get(gradeHomeUrl);
+		List<Student> list = new ArrayList<>();
+		try {
+			Document doc = page.parse();
+			Element table = doc.getElementById("ewlistmain");
+			for(Element tr: table.getElementsByTag("tr")) {
+				Element stdModuleID = tr.getElementById("x_StdModuleID");
+				if(stdModuleID != null) {
+					Elements data = tr.getElementsByTag("td");
+					Student student = new Student();
+					student.setStdModuleID(stdModuleID.val());
+					student.setName(data.get(3).text());
+					student.setStdNumber(data.get(4).text());
+					student.setSemStatus(data.get(6).text());
+					
+					System.out.println(student);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 	private static Connection.Response login() throws IOException {
 		String loginUrl = "https://cmslesotho.limkokwing.net/campus/lecturer/login.php";
 		Connection.Response loginForm = get(loginUrl);  
@@ -94,35 +122,50 @@ public class TestAPI {
 		return list;
 	}
 	
-	private static Connection.Response get(String loginUrl) throws IOException {
-		Connection.Response response = Jsoup.connect(loginUrl)
-				.method(Connection.Method.GET)
-				.cookies(cookies) 
-				.userAgent(USER_AGENT)
-				.execute();
-		cookies.putAll(response.cookies());
+	private static Connection.Response get(String url) {
+		Connection.Response response = null;
+		try {
+			response = Jsoup.connect(url)
+					.method(Connection.Method.GET)
+					.cookies(cookies) 
+					.userAgent(USER_AGENT)
+					.execute();
+			cookies.putAll(response.cookies());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return response;
 	}
 	
-	private static Connection.Response post(String loginUrl, List<String> formData) throws IOException {
-		Connection connection = Jsoup.connect(loginUrl)  
+	private static Connection.Response post(String url, List<String> formData) {
+		Connection connection = Jsoup.connect(url)  
 				.cookies(cookies)  
 				.data(formData.toArray(new String[0]))  
 				.method(Connection.Method.POST)  
 				.userAgent(USER_AGENT);
-		Connection.Response response =  connection.execute();
-		cookies.putAll(response.cookies());
+		Connection.Response response = null;
+		try {
+			response = connection.execute();
+			cookies.putAll(response.cookies());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return response;
 	}
 	
-	private static Connection.Response post(String loginUrl, Map<String, String> formData) throws IOException {
-		Connection.Response response = Jsoup.connect(loginUrl)  
-				.cookies(cookies)  
-				.data(formData)  
-				.method(Connection.Method.POST)  
-				.userAgent(USER_AGENT)  
-				.execute();
-		cookies.putAll(response.cookies());
+	private static Connection.Response post(String url, Map<String, String> formData) {
+		Connection.Response response = null;
+		try {
+			response = Jsoup.connect(url)  
+					.cookies(cookies)  
+					.data(formData)  
+					.method(Connection.Method.POST)  
+					.userAgent(USER_AGENT)  
+					.execute();
+			cookies.putAll(response.cookies());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return response;
 	}
 }
