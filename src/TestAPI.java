@@ -28,7 +28,7 @@ public class TestAPI {
 
 	private static Connection.Response addGrades() throws IOException {
 		String gradeHomeUrl = "https://cmslesotho.limkokwing.net/campus/"
-				+ "lecturer/f_breakdownmarksviewlist_new.php?showmaster=1&ModuleID=1536";
+				+ "lecturer/f_breakdownmarksviewlist_new.php?showmaster=1&ModuleID=1536&RecPerPage=500";
 		String gradesFormUrl = "https://cmslesotho.limkokwing.net/campus/"
 				+ "lecturer/f_breakdownmarksviewlist_new.php?a=edit&f=A&w=cw3";
 		String gradesActionUrl = "https://cmslesotho.limkokwing.net/campus/"
