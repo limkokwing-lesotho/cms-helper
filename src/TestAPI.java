@@ -13,6 +13,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import luct.gradebook.Student;
+
 public class TestAPI {
 
 	final static String USER_AGENT = "\"Mozilla/5.0 (Windows NT\" +\n" +  
