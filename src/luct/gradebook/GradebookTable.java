@@ -5,17 +5,28 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 
-public class GradebookTable extends TableView<Student> {
+public class GradebookTable extends BorderPane {
 
 	public ObservableList<Student> list = FXCollections.observableArrayList(StudentDAO.get());
+	private ComboBox<String> module = new ComboBox<>();
+	private TableView<Student> table;
 	
 	public GradebookTable() {
-		getColumns().addAll(createColumns());
-		setItems(list);
+		module.setPromptText("Module");
+		ToolBar toolBar = new ToolBar(module);
+		setTop(toolBar);
+		
+		table = new TableView<>();
+		table.getColumns().addAll(createColumns());
+		table.setItems(list);
+		setCenter(table);
 	}
 	
 	public static List<TableColumn<Student, ?>> createColumns(){

@@ -7,6 +7,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import luct.gradebook.GradebookTable;
+import luct.gradebook.StudentsPane;
 
 
 public class Main extends Application {
@@ -38,7 +39,7 @@ public class Main extends Application {
 		studentBtn.setMinHeight(100);
 		
 		gradesBtn.setOnAction(e ->{
-			root.setCenter(new HBox());
+			root.setCenter(new StudentsPane());
 		});
 		GradebookTable students = new GradebookTable();
 		studentBtn.setOnAction(e ->{
