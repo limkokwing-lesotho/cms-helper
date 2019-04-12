@@ -50,3 +50,5 @@ data/
 /bin/
 
 default_credentials
+
+*.db

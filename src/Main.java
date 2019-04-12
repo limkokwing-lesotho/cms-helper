@@ -34,19 +34,19 @@ public class Main extends Application {
 		Button gradesBtn = new Button("Grades");
 		gradesBtn.setMinWidth(100);
 		gradesBtn.setMinHeight(100);
-		Button studentBtn = new Button("Students");
-		studentBtn.setMinWidth(100);
-		studentBtn.setMinHeight(100);
+		Button classesBtn = new Button("Classes");
+		classesBtn.setMinWidth(100);
+		classesBtn.setMinHeight(100);
 		
 		gradesBtn.setOnAction(e ->{
 			root.setCenter(new StudentsPane());
 		});
 		GradebookTable students = new GradebookTable();
-		studentBtn.setOnAction(e ->{
+		classesBtn.setOnAction(e ->{
 			root.setCenter(students);
 		});
 		
-		return new VBox(gradesBtn, studentBtn);
+		return new VBox(gradesBtn, classesBtn);
 	}
 
 	public static void main(String[] args) {

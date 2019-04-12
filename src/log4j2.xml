@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%sn) [%-6p] %d{HH:mm:ss,SSS} %C{3}.%M(%F:%L) – %msg%n" />
+		</Console>
+		<RollingFile name="rollingFile"
+			fileName="logs/lfs-desktop.log"
+			filePattern="logs/lfs-desktop-%d{dd-MMM-yyyy}-%i.log.zip"
+			ignoreExceptions="false">
+			<PatternLayout
+				pattern="%sn) [%-6p] %d{HH:mm:ss,SSS} %C{3}.%M(%F:%L) – %msg%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="5" />
+		</RollingFile>
+		<!-- <Async name="asyncAppender" bufferSize="80"> <AppenderRef ref="rollingFile"/> 
+			</Async> -->
+	</Appenders>
+	<Loggers>
+		<Root level="debug" additivity="false">
+			<AppenderRef ref="console" level="trace" />
+			<AppenderRef ref="rollingFile" level="info" />
+			<!-- <AppenderRef ref="asyncAppender" level="info" /> -->
+		</Root>
+		<Logger name="org.hibernate" level="info" />
+	</Loggers>
+</Configuration>

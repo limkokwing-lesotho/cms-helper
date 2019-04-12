@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Hibernate;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -13,6 +14,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import luct.db.DAO;
+import luct.db.HibernateHelper;
 import luct.gradebook.Student;
 
 public class TestAPI {
@@ -22,9 +25,18 @@ public class TestAPI {
 	static Map<String, String> cookies = new HashMap<>();  
 
 	public static void main(String[] args) throws Exception {
+		HibernateHelper.getSession();
+		
 		login();
 
+		
+		
 		List<Student> students = readStudents();
+		DAO<Student> dao = new DAO<>(Student.class);
+		for (Student student : students) {
+			dao.save(student);
+		}
+		
 		
 //		System.out.println(gradePage.parse().html());
 	}
@@ -61,7 +73,7 @@ public class TestAPI {
 
 	private static List<Student> readStudents(){
 		String gradeHomeUrl = "https://cmslesotho.limkokwing.net/campus/"
-				+ "lecturer/f_breakdownmarksviewlist_new.php?showmaster=1&ModuleID=1536&RecPerPage=500";
+				+ "lecturer/f_breakdownmarksviewlist_new.php?showmaster=1&ModuleID=2899&RecPerPage=500";
 		Response page = get(gradeHomeUrl);
 		List<Student> list = new ArrayList<>();
 		try {
@@ -76,7 +88,7 @@ public class TestAPI {
 					student.setName(data.get(3).text());
 					student.setStdNumber(data.get(4).text());
 					student.setSemStatus(data.get(6).text());
-					
+					list.add(student);
 					System.out.println(student);
 				}
 			}
@@ -86,6 +98,7 @@ public class TestAPI {
 		
 		return list;
 	}
+	
 	private static Connection.Response login() throws IOException {
 		String loginUrl = "https://cmslesotho.limkokwing.net/campus/lecturer/login.php";
 		Connection.Response loginForm = get(loginUrl);  

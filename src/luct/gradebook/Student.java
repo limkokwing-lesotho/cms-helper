@@ -1,7 +1,17 @@
 package luct.gradebook;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class Student {
 
 	private SimpleStringProperty name;
@@ -17,46 +27,55 @@ public class Student {
 		semStatus = new SimpleStringProperty();
 		grades = new SimpleMapProperty<>();
 	}
-	public final SimpleStringProperty nameProperty() {
+
+	
+	public SimpleStringProperty nameProperty() {
 		return this.name;
 	}
-	public final String getName() {
+	public String getName() {
 		return this.nameProperty().get();
 	}
-	public final void setName(final String name) {
+	public void setName( String name) {
 		this.nameProperty().set(name);
 	}
-	public final SimpleStringProperty stdNumberProperty() {
+	public SimpleStringProperty stdNumberProperty() {
 		return this.stdNumber;
 	}
-	public final String getStdNumber() {
+	@Id
+	public String getStdNumber() {
 		return this.stdNumberProperty().get();
 	}
-	public final void setStdNumber(final String stdNumber) {
+	public void setStdNumber( String stdNumber) {
 		this.stdNumberProperty().set(stdNumber);
 	}
-	public final SimpleStringProperty stdModuleIDProperty() {
+	public SimpleStringProperty stdModuleIDProperty() {
 		return this.stdModuleID;
 	}
-	public final String getStdModuleID() {
+	public String getStdModuleID() {
 		return this.stdModuleIDProperty().get();
 	}
-	public final void setStdModuleID(final String stdModuleID) {
+	public void setStdModuleID( String stdModuleID) {
 		this.stdModuleIDProperty().set(stdModuleID);
 	}
-	public final SimpleStringProperty semStatusProperty() {
+	public SimpleStringProperty semStatusProperty() {
 		return this.semStatus;
 	}
-	public final String getSemStatus() {
+	public String getSemStatus() {
 		return this.semStatusProperty().get();
 	}
-	public final void setSemStatus(final String semStatus) {
+	public void setSemStatus( String semStatus) {
 		this.semStatusProperty().set(semStatus);
 	}
+	@Transient
 	public SimpleMapProperty<String, Double> getGrades() {
 		return grades;
 	}
 	public void setGrades(SimpleMapProperty<String, Double> grades) {
 		this.grades = grades;
+	}
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", stdNumber=" + stdNumber + ", stdModuleID=" + stdModuleID + ", semStatus="
+				+ semStatus + ", grades=" + grades + "]";
 	}
 }
