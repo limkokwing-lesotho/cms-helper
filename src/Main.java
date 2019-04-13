@@ -7,7 +7,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import luct.gradebook.GradebookTable;
-import luct.gradebook.StudentsPane;
+import luct.gradebook.ReadModuleService;
+import luct.gradebook.Session;
+import luct.gradebook.ClassesPane;
 
 
 public class Main extends Application {
@@ -17,6 +19,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			Session.login();
 			
 			Scene scene = new Scene(root,600,500);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -38,8 +41,9 @@ public class Main extends Application {
 		classesBtn.setMinWidth(100);
 		classesBtn.setMinHeight(100);
 		
+		ClassesPane classes = new ClassesPane();
 		gradesBtn.setOnAction(e ->{
-			root.setCenter(new StudentsPane());
+			root.setCenter(classes);
 		});
 		GradebookTable students = new GradebookTable();
 		classesBtn.setOnAction(e ->{

@@ -15,13 +15,19 @@ import javafx.scene.layout.BorderPane;
 public class GradebookTable extends BorderPane {
 
 	public ObservableList<Student> list = FXCollections.observableArrayList(StudentDAO.get());
-	private ComboBox<String> module = new ComboBox<>();
+	private ComboBox<Module> module = new ComboBox<>();
 	private TableView<Student> table;
 	
 	public GradebookTable() {
 		module.setPromptText("Module");
 		ToolBar toolBar = new ToolBar(module);
 		setTop(toolBar);
+		
+		ReadModuleService rm = new ReadModuleService();
+		new Thread(rm).start();
+		rm.setOnSucceeded( ev->{
+			module.getItems().addAll(rm.getValue());
+		});
 		
 		table = new TableView<>();
 		table.getColumns().addAll(createColumns());
